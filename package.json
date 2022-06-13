@@ -11,6 +11,6 @@
   },
   "keywords": ["angular", "internet speed test", "speed test"],
   "publishConfig": {
-    "@YOUR-USERNAME:registry": "https://npm.pkg.github.com"
+    "registry":"https://github.com/Supphawit-J/ngx-speed-test"
   }
 }
