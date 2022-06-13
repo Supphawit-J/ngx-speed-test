@@ -9,5 +9,8 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "keywords": ["angular", "internet speed test", "speed test"]
+  "keywords": ["angular", "internet speed test", "speed test"],
+  "publishConfig": {
+    "@YOUR-USERNAME:registry": "https://npm.pkg.github.com"
+  }
 }
