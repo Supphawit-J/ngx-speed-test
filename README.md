@@ -6,7 +6,7 @@ development. This library base on [Angular Material](https://v13.material.angula
 ## Install
 
 ```
-npm i ngx-speed-test
+npm i @supphawit-j/ngx-speed-test
 ```
 
 ## API reference
