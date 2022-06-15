@@ -1,7 +1,7 @@
 # NgxSpeedTest
 
 Library for check internet speed test, this library using [speedof.me](https://speedof.me/index.html) API for
-development. This library base on [Angular Material](https://v13.material.angular.io/) and [Bootstrap 5](https://getbootstrap.com/)
+development. This library base on [Angular Material](https://v13.material.angular.io/)
 
 ## Install
 
