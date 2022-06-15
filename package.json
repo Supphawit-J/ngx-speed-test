@@ -12,5 +12,8 @@
   "keywords": ["angular", "internet speed test", "speed test"],
   "publishConfig": {
     "@ideajeng:registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "url": "https://github.com/Supphawit-J/ngx-speed-test"
   }
 }
