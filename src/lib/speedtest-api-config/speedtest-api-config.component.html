@@ -1,4 +1,4 @@
-<div *ngIf="apiConfig.showUI">
+<div style="padding: .25rem" *ngIf="apiConfig.showUI">
   <button mat-raised-button color="primary"
           type="button" *ngIf="apiConfig.showBtn"
           [disabled]="!serviceStatus.permission()"
@@ -6,21 +6,21 @@
     {{serviceStatus.message()}}
   </button>
   <span *ngIf="serviceStatus.available >= 0" class="available">Available: {{serviceStatus.available}}</span>
-  <div class="container-s">
-    <mat-card class="col-s">
+  <div class="result-container">
+    <mat-card class="section-s">
       <mat-card-subtitle>Download Speed (Mbps)</mat-card-subtitle>
       <mat-card-title
         class="">{{testInfo.download > 0 ? testInfo.download : '--'}}</mat-card-title>
     </mat-card>
-    <mat-card class="col-s">
+    <mat-card class="section-s">
       <mat-card-subtitle>Upload Speed (Mbps)</mat-card-subtitle>
       <mat-card-title>{{testInfo.upload > 0 ? testInfo.upload : '--'}}</mat-card-title>
     </mat-card>
-    <mat-card class="col-s">
+    <mat-card class="section-s">
       <mat-card-subtitle>Latency (ms)</mat-card-subtitle>
       <mat-card-title>{{testInfo.latency > 0 ? testInfo.latency : '--'}}</mat-card-title>
     </mat-card>
-    <mat-card class="col-m">
+    <mat-card class="section-m">
       <mat-card-title-group>
         <mat-card-subtitle>IP Address</mat-card-subtitle>
         <mat-card-title>{{testInfo.ip_address ? testInfo.ip_address : '--'}}</mat-card-title>
