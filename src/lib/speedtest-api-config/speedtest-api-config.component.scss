@@ -1,17 +1,52 @@
+:host {
+  padding: .25rem;
+}
+
 .mat-card {
   border: .01rem solid silver;
   border-radius: 1rem;
   box-shadow: none;
 }
 
-.display-5 {
-  font-weight: 400;
-}
-
-.mat-card-title{
+.mat-card-title {
   font-size: 2rem;
 }
 
-mat-card-title-group .mat-card-title{
+mat-card-title-group .mat-card-title {
   font-size: 1.5rem;
+}
+
+.mat-raised-button.mat-primary {
+  text-transform: uppercase;
+}
+
+span {
+  font-size: 1.25rem;
+  font-weight: 300;
+  float: end;
+  margin-top: 1rem;
+}
+
+.container-s {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  gap: .5rem;
+  padding: .5rem 0;
+}
+
+.mat-card-title {
+  margin-top: auto !important;
+}
+
+.col-s {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.col-m {
+  display: flex;
+  flex-direction: column;
+  flex: 1.5;
 }
