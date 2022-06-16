@@ -1,11 +1,4 @@
-<div style="padding: .25rem" *ngIf="apiConfig.showUI">
-  <button mat-raised-button color="primary"
-          type="button" *ngIf="apiConfig.showBtn"
-          [disabled]="!serviceStatus.permission()"
-          (click)="runTest()">
-    {{serviceStatus.message()}}
-  </button>
-  <span *ngIf="serviceStatus.available >= 0" class="available">Available: {{serviceStatus.available}}</span>
+<div class="speed-test-container" *ngIf="showUI">
   <div class="result-container">
     <mat-card class="section-s">
       <mat-card-subtitle>Download Speed (Mbps)</mat-card-subtitle>
@@ -29,4 +22,10 @@
       </mat-card-title-group>
     </mat-card>
   </div>
+  <button mat-raised-button color="primary"
+          type="button" *ngIf="showBtn"
+          [disabled]="!serviceStatus.permission()"
+          (click)="runTest()">
+    {{serviceStatus.message()}}
+  </button>
 </div>

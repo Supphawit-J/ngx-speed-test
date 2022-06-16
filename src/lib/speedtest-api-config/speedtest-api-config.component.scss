@@ -16,6 +16,14 @@ mat-card-title-group .mat-card-title {
   text-transform: uppercase;
 }
 
+.speed-test-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 .25rem;
+  flex-direction: column;
+}
+
 span {
   font-size: 1.25rem;
   font-weight: 300;
