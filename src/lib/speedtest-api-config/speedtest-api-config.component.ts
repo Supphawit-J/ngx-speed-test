@@ -137,10 +137,6 @@ export class SpeedtestApiConfigComponent implements OnInit, OnDestroy {
     }));
   }
 
-  async loadAPI(config: NgxSpeedtestConfig): Promise<void> {
-    await this.service.loadJsScript(config);
-  }
-
   runTest() {
     this.testInfo = {
       download: 0,
