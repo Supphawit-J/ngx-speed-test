@@ -31,4 +31,12 @@ import {MatDividerModule} from "@angular/material/divider";
   ]
 })
 export class NgxSpeedTestModule {
+  static forRoot(config: NgxSpeedtestConfig): ModuleWithProviders<NgxSpeedTestModule> {
+    return {
+      ngModule: NgxSpeedTestModule,
+      providers: [
+        {provide: 'config', useValue: config}
+      ]
+    }
+  };
 }
