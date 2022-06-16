@@ -44,35 +44,38 @@ export class NgxSpeedTestService {
     this.setup = {...this.setup, ...config};
   }
 
-  loadJsScript(setup: NgxSpeedtestConfig): Promise<any> {
+  loadJsScript(): Promise<any> {
     const script = this.renderer.createElement('script');
     script.type = 'text/javascript';
     script.src = this.speedMeScript;
     this.renderer.appendChild(this.document.body, script);
 
     return new Promise((resolve, reject) => {
-      script.onload = () => {
 
-        SomApi.account = setup.apiKey;
-        SomApi.domainName = setup.domainName;
-        SomApi.config = setup.config;
+      if (this.setup) {
+        script.onload = () => {
 
-        if (setup.autoStart){
-          SomApi.startTest();
+          SomApi.account = this.setup.apiKey;
+          SomApi.domainName = this.setup.domainName;
+          SomApi.config = this.setup.config;
+
+          SomApi.onTestCompleted = (result: NgxSpeedtestResult): void => {
+            this.resultSubject.next(result)
+          };
+          SomApi.onProgress = (info: NgxSpeedtestProgress): void => {
+            this.progressSubject.next(info);
+          }
+          SomApi.onError = (error: any): void => {
+            throw new error
+          };
+
+          resolve(true)
         }
 
-        SomApi.onTestCompleted = (result: NgxSpeedtestResult): void => {
-          this.resultSubject.next(result)
-        };
-        SomApi.onProgress = (info: NgxSpeedtestProgress): void => {
-          this.progressSubject.next(info);
+        script.onerror = () => {
+          reject(false);
         }
-        SomApi.onError = (error: any): void => {
-          throw new error
-        };
-      }
-
-      script.onerror = () => {
+      }else{
         reject(false);
       }
     });
