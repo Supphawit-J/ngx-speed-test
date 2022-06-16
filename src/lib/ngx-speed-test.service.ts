@@ -18,11 +18,30 @@ export class NgxSpeedTestService {
   private speedMeScript = 'http://speedof.me/api/api.js';
   private resultSubject: BehaviorSubject<NgxSpeedtestResult> = new BehaviorSubject<NgxSpeedtestResult>(null!);
   private progressSubject: BehaviorSubject<NgxSpeedtestProgress> = new BehaviorSubject<NgxSpeedtestProgress>(null!);
+  private readonly setup: NgxSpeedtestConfig = {
+    domainName: '',
+    apiKey: '',
+    config: {
+      sustainTime: 4,
+      testServerEnabled: true,
+      userInfoEnabled: true,
+      latencyTestEnabled: true,
+      uploadTestEnabled: true,
+      progress: {
+        enabled: true,
+        verbose: true
+      },
+    }
+  }
 
-  constructor(@Inject(DOCUMENT) private document: Document, rendererFactory: RendererFactory2) {
+  constructor(
+    @Inject(DOCUMENT) private document: Document, rendererFactory: RendererFactory2,
+    @Inject('config') private config: NgxSpeedtestConfig
+    ) {
     this.renderer = rendererFactory.createRenderer(null, null);
     this.testCompleted = this.resultSubject.asObservable();
     this.progressInfo = this.progressSubject.asObservable();
+    this.setup = {...this.setup, ...config};
   }
 
   loadJsScript(setup: NgxSpeedtestConfig): Promise<any> {
