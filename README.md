@@ -1,7 +1,11 @@
-# NgxSpeedTest
+# NgxSpeedTest v1.1
 
 Library for check internet speed test, this library using [speedof.me](https://speedof.me/index.html) API for
 development. This library base on [Angular Material](https://v13.material.angular.io/)
+
+See more: 
+[npm](https://www.npmjs.com/package/@supphawit-j/ngx-speed-test)
+[GitHub](https://github.com/Supphawit-J/ngx-speed-test)
 
 ## Install
 
@@ -10,12 +14,12 @@ npm i @supphawit-j/ngx-speed-test
 ```
 
 ## API reference
-
 ### NgxSpeedTestModule
 
 In order to use this library, you need to import `NgxSpeedTestModule` to your module.
 
 app.module.ts
+
 ```ts
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
@@ -33,14 +37,16 @@ import {NgxSpeedTestModule} from "ngx-speed-test";
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NgxSpeedTestModule
+    NgxSpeedTestModule.forRoot({domainName: 'localhost', apiKey: 'SOMxxxxxxxxxxx'})
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 }
+
 ```
+See more: [SpeedOf.Me API Documentation](https://speedof.me/api/doc/SpeedOfMe_API_Doc.pdf)
 
 ### NgxSpeedtestConfig
 
@@ -51,18 +57,13 @@ export interface NgxSpeedtestConfig {
   domainName: string;
   apiKey: string;
   config?: {
-    latencyTestEnabled: boolean,
-    maxTestPass: number,
-    progress: { enabled: boolean, verbose: boolean },
-    sustainTime: number,
-    testServerEnabled: boolean,
-    uploadTestEnabled: boolean,
-    userInfoEnabled: boolean
-  },
-  showBtn?: boolean;
-  showUI?: boolean;
-  autoStart?: boolean;
-  available?: number
+    sustainTime?: number,
+    testServerEnabled?: boolean,
+    userInfoEnabled?: boolean
+    latencyTestEnabled?: boolean,
+    uploadTestEnabled?: boolean,
+    progress?: { enabled?: boolean, verbose?: boolean },
+  };
 }
 ```
 
@@ -131,37 +132,70 @@ selector: `<ngx-speed-test>`
 
 #### Additional properties
 
-| Name                                          | Description                                                     |
-|-----------------------------------------------|-----------------------------------------------------------------|
-| @Input() config: `NgxSpeedTestConfig`         | Configuration for API                                           |
-| @Input() start: `boolean`                     | API trigger, `false` by default                                 |
-| @Output() started: `boolean`                  | return `true` when API is executed                              |
-| @Output() progressing: `NgxSpeedtestProgress` | return `NgxSpeedtestProgress` object when speed test is running |
-| @Output() completed: `NgxSpeedtestResult`     | return `NgxSpeedtestResult` object when speed test has done     |
+| Name                                          | Description                                                        |
+|-----------------------------------------------|--------------------------------------------------------------------|
+| @Input() showBtn: `boolean`                   | button display setup, `true` by default                            |
+| @Input() showUI: `boolean`                    | UI display setup, `false` by default                               |
+| @Input() available: `boolean`                 | test attempt , `-1` ( equal to unlimited test attempt ) by default |
+| @Input() autoStart: `boolean`                 | automatically start internet speed test, `false` by default        |
+| @Input() start: `boolean`                     | API trigger, `false` by default                                    |
+| @Output() started: `boolean`                  | return `true` when API is executed                                 |
+| @Output() progressing: `NgxSpeedtestProgress` | return `NgxSpeedtestProgress` object when speed test is running    |
+| @Output() completed: `NgxSpeedtestResult`     | return `NgxSpeedtestResult` object when speed test has done        |
 
 ## Usage
 
-### Setup API configuration
+### Import NgxSpeedTestModule and setup API configuration
 
-app.component.ts
 
+app.module.ts
 ```ts
-import {NgxSpeedtestConfig} from "ngx-speed-test";
+// other imports
+import {NgxSpeedTestModule} from "ngx-speed-test";
+import {config} from "rxjs";
 
-export class AppCompomemt implements Oninit {
 
-  apiConfig: NgxSpeedtestConfig;
-
-  ngOnInit() {
-    this.apiConfig = {
-      domainName: 'localhost',
-      apiKey: 'SOMxxxxxxxxxxxxx',
-    }
-  }
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    // other imports
+    NgxSpeedTestModule.forRoot('configuration: NgxSpeedtestConfig')
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule {
 }
+
+```
+> Note: ***domainName*** and ***apiKey*** are **required**. If you don't set other property except ***domainName*** and ***apiKey***, then default configuration will be apply.
+
+**Example**
+
+app.module.ts
+```ts
+// other imports
+import {NgxSpeedTestModule} from "ngx-speed-test";
+import {config} from "rxjs";
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    // other imports
+    NgxSpeedTestModule.forRoot({domainName: 'localhost', apiKey: 'SOMxxxxxxxxxxx'})
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule {
+}
+
 ```
 
-> Note: ***domainName*** and ***apiKey*** are **required**. If you don't set other property except ***domainName*** and ***apiKey***, then default configuration will be apply.
 
 app.component.html
 
@@ -181,17 +215,11 @@ app.component.html
 app.component.ts
 
 ```ts
-import {NgxSpeedtestResult, NgxSpeedtestProgress, NgxSpeedtestConfig} from "ngx-speed-test";
+import {NgxSpeedtestResult, NgxSpeedtestProgress} from "ngx-speed-test";
 
 export class AppCompomemt implements Oninit {
-
-  apiConfig: NgxSpeedtestConfig;
-
+    
   ngOnInit() {
-    this.apiConfig = {
-      domainName: 'localhost',
-      apiKey: 'SOMxxxxxxxxxxxxx',
-    }
   }
 
   started(out: boolean) {
@@ -227,44 +255,38 @@ NgxSpeedTest has build in UI component.
 
 ![NGX Speed test Example](./ngx-speed-test-example.png "NGX Speed test Example")
 
-- If you want to hide a button only, add `showBtn: false` to API configuration
-- If you want to hide whole UI, add `showUI: false` to API configuration
+- Add ***showBtn*** input decorator with value `false`, if you want to hide button.
+
+- Add ***showUI*** input decorator with value `false` , if you want to hide UI of `ngx-speed-test`.
 
 ### Apply Limit
 
-You can set limit of running speed test by adding `available: number(interger) ` to API configuration.
+- Add ***available*** input decorator with positive integer , if you want to set internet speed test attempt.
 
 > Note: If you don't set limitation, then API will use default value which is allowed user to run test as much as possible.
 
 ### Automatic Run Speed Test
 
-You can run speed test after initialize by adding `autoStart: true (default = false)` to API configuration.
+- Add ***autoStart*** input decorator with value `true` , if you want to automatically start internet speed test.
 
 > Note: This won't reduce the times that you can run speed test if you've set the limit.
 
 ### Programmatically & Manually Run Speed Test
 
-Add ***start*** as input decorator with, if you want trigger speed test programmatically or manually.
+- Add ***start*** input decorator with value `true` , if you want to start internet speed test.
 > Note: You can only apply boolean value or function that return boolean as a value to this input decorator. And default value is `false`
 
 app.component.ts
 
 ```ts
-import {NgxSpeedtestConfig} from "ngx-speed-test";
-
 export class AppCompomemt implements Oninit {
 
   apiConfig: NgxSpeedtestConfig;
   go: boolean = false;
 
   ngOnInit() {
-    this.apiConfig = {
-      domainName: 'localhost',
-      apiKey: 'SOMxxxxxxxxxxxxx',
-    }
   }
-
-
+  
 }
 ```
 
@@ -278,7 +300,7 @@ app.component.html
 
 ## About me
 
-### Github
+### GitHub
 
 [@Supphawit-J](https://github.com/Supphawit-J)
 
