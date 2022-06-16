@@ -105,13 +105,14 @@ export class SpeedtestApiConfigComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    if (this.apiConfig.available) {
-      this.serviceStatus = new ServiceStatus(this.apiConfig.available);
-
-    }
-    if (this.apiConfig.autoStart) {
-      this.serviceStatus.inProgress = true;
-    }
+    from(this.service.loadJsScript()).subscribe(api => {
+      this.serviceStatus.apiLoaded = !!api;
+      if (api && this.autoStart) {
+        this.service.runTest();
+        this.serviceStatus.inProgress = true;
+        this.started.emit(true)
+      }
+    });
 
     this.subscription = this.service.testCompleted.subscribe(result => {
       if (result) {
