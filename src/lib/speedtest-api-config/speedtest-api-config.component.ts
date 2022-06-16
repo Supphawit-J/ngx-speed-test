@@ -39,7 +39,7 @@ class ServiceStatus {
 }
 
 @Component({
-  selector: 'ngx-speedtest-api-config',
+  selector: 'ngx-speed-test',
   templateUrl: './speedtest-api-config.component.html',
   styleUrls: ['./speedtest-api-config.component.scss']
 })
