@@ -14,22 +14,24 @@ import {NgxSpeedtestProgress} from "../interfaces/NgxSpeedtestProgress";
 import {Subscription} from "rxjs";
 
 class ServiceStatus {
-  inProgress: boolean
-  available: number
+  inProgress: boolean;
+  available: number;
+  apiLoaded: boolean;
 
   constructor(private limit: number) {
     this.available = limit;
     this.inProgress = false;
+    this.apiLoaded = false;
   }
 
   permission(): boolean {
-    return !this.inProgress && (this.available !== 0)
+    return !this.inProgress && (this.available !== 0) && this.apiLoaded
   };
 
   message(): string {
     if (this.inProgress) {
       return 'In progress...'
-    } else if (this.available !== this.limit) {
+    } else if (this.available !== this.limit && this.limit) {
       return 'Restart';
     } else {
       return `Start`
