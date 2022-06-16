@@ -47,9 +47,6 @@ class ServiceStatus {
 
 export class SpeedtestApiConfigComponent implements OnInit, OnDestroy {
 
-  @Output() completed: EventEmitter<NgxSpeedtestResult> = new EventEmitter<NgxSpeedtestResult>();
-  @Output() progressing: EventEmitter<NgxSpeedtestProgress> = new EventEmitter<NgxSpeedtestProgress>();
-  @Output() started: EventEmitter<boolean> = new EventEmitter<boolean>();
   subscription: Subscription;
 
   apiConfig: NgxSpeedtestConfig = {
@@ -80,26 +77,28 @@ export class SpeedtestApiConfigComponent implements OnInit, OnDestroy {
     ip_address: '',
     testServer: ''
   }
-
   serviceStatus: ServiceStatus;
+
+  @Output() completed: EventEmitter<NgxSpeedtestResult> = new EventEmitter<NgxSpeedtestResult>();
+  @Output() progressing: EventEmitter<NgxSpeedtestProgress> = new EventEmitter<NgxSpeedtestProgress>();
+  @Output() started: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input() showBtn: boolean = true;
+  @Input() showUI: boolean = true;
+  @Input() autoStart: boolean = false;
 
   constructor(private service: NgxSpeedTestService, private cdr: ChangeDetectorRef) {
 
   }
 
-  @Input()
-  set config(config: NgxSpeedtestConfig) {
-    this.apiConfig = {...this.apiConfig, ...config};
-    if (this.apiConfig.domainName && this.apiConfig.apiKey) {
-      this.loadAPI(this.apiConfig);
-    } else {
-      throw new Error('Missing required property');
-    }
-  }
+  @Input() set available(attempt: number) {
+    this.serviceStatus = new ServiceStatus(attempt ?? -1)
+  };
 
   @Input() set start(value: boolean) {
-    if (value && this.serviceStatus.permission()) {
-      this.runTest();
+    if (this.serviceStatus) {
+      if (value && this.serviceStatus.permission()) {
+        this.runTest();
+      }
     }
   };
 
