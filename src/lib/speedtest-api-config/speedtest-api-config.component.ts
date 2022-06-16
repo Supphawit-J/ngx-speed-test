@@ -87,7 +87,7 @@ export class SpeedtestApiConfigComponent implements OnInit, OnDestroy {
   @Input() autoStart: boolean = false;
 
   constructor(private service: NgxSpeedTestService, private cdr: ChangeDetectorRef) {
-
+    this.serviceStatus = new ServiceStatus(-1);
   }
 
   @Input() set available(attempt: number) {
