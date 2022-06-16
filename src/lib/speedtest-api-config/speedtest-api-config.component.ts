@@ -8,10 +8,9 @@ import {
   Output,
 } from '@angular/core';
 import {NgxSpeedTestService} from "../ngx-speed-test.service";
-import {NgxSpeedtestConfig} from "../interfaces/NgxSpeedtestConfig";
 import {NgxSpeedtestResult} from "../interfaces/NgxSpeedtestResult";
 import {NgxSpeedtestProgress} from "../interfaces/NgxSpeedtestProgress";
-import {Subscription} from "rxjs";
+import {from, Subscription} from "rxjs";
 
 class ServiceStatus {
   inProgress: boolean;
@@ -48,28 +47,6 @@ class ServiceStatus {
 export class SpeedtestApiConfigComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
-
-  apiConfig: NgxSpeedtestConfig = {
-    domainName: '',
-    apiKey: '',
-    config: {
-      latencyTestEnabled: true,
-      maxTestPass: 4,
-      progress: {
-        enabled: true,
-        verbose: true
-      },
-      sustainTime: 4,
-      testServerEnabled: true,
-      uploadTestEnabled: true,
-      userInfoEnabled: true
-    },
-    showBtn: true,
-    showUI: true,
-    autoStart: false,
-    available: -1
-  }
-
   testInfo = {
     download: 0,
     upload: 0,
