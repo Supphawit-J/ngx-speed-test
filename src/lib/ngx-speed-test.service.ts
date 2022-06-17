@@ -37,7 +37,7 @@ export class NgxSpeedTestService {
   constructor(
     @Inject(DOCUMENT) private document: Document, rendererFactory: RendererFactory2,
     @Inject('config') private config: NgxSpeedtestConfig
-    ) {
+  ) {
     this.renderer = rendererFactory.createRenderer(null, null);
     this.testCompleted = this.resultSubject.asObservable();
     this.progressInfo = this.progressSubject.asObservable();
@@ -59,26 +59,44 @@ export class NgxSpeedTestService {
           SomApi.domainName = this.setup.domainName;
           SomApi.config = this.setup.config;
 
-          SomApi.onTestCompleted = (result: NgxSpeedtestResult): void => {
-            this.resultSubject.next(result)
+          SomApi.onTestCompleted = (res: any): void => {
+
+            const result: NgxSpeedtestResult = this.responsePipe(res);
+
+            this.resultSubject.next(result);
           };
-          SomApi.onProgress = (info: NgxSpeedtestProgress): void => {
-            this.progressSubject.next(info);
-          }
+
+          SomApi.onProgress = (res: any): void => {
+
+            const progress: NgxSpeedtestProgress = this.responsePipe(res);
+
+            this.progressSubject.next(progress);
+          };
+
           SomApi.onError = (error: any): void => {
             throw new error
           };
 
-          resolve(true)
+          resolve(true);
         }
 
         script.onerror = () => {
           reject(false);
         }
-      }else{
+      } else {
         reject(false);
       }
     });
+  }
+
+  responsePipe(res: any) {
+    Object.keys(res).map(key => {
+      if (String(res[key]) === '') {
+        res[key] = null
+      }
+    });
+
+    return res;
   }
 
   runTest(): void {
