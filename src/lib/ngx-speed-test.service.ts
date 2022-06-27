@@ -15,7 +15,7 @@ export class NgxSpeedTestService {
   public testCompleted: Observable<NgxSpeedtestResult>;
   public progressInfo: Observable<NgxSpeedtestProgress>;
   private renderer: Renderer2;
-  private speedMeScript = 'http://speedof.me/api/api.js';
+  private speedMeScript = '//speedof.me/api/api.js';
   private resultSubject: BehaviorSubject<NgxSpeedtestResult> = new BehaviorSubject<NgxSpeedtestResult>(null!);
   private progressSubject: BehaviorSubject<NgxSpeedtestProgress> = new BehaviorSubject<NgxSpeedtestProgress>(null!);
   private readonly setup: NgxSpeedtestConfig = {
